@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ZyraPunish">
+    <output-path>$PROJECT_DIR$/out/artifacts/ZyraPunish</output-path>
+    <root id="archive" name="ZyraPunish.jar">
+      <element id="module-output" name="ZyraPunish" />
+    </root>
+  </artifact>
+</component>
