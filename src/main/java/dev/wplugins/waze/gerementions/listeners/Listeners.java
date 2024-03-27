@@ -234,7 +234,9 @@ if (event.isCancelled()) {
                         ResultSet resultSetIP = statement4.executeQuery("SELECT * FROM wPunish WHERE ip='" + ip.getAddress() + "'");
                         ResultSet resultSet2 = statement2.executeQuery("SELECT * FROM wPunish WHERE playerName='" + name + "' AND (type='MUTE' OR type='TEMPMUTE' OR type='Mute temporário')");
 
-                        if ((resultSet2.next() && resultSet3.next())) {
+                        if (!(resultSet2.next() && resultSet3.next())) {
+                            return;
+                        }
 if (event.getMessage().startsWith("/tell")) {
    {
         event.setCancelled(true);
@@ -277,7 +279,7 @@ if (event.getMessage().startsWith("/tell")) {
                                         "\n\n§cUse o ID §e#" + resultSet2.getString("id") + " §cpara criar uma revisão em " + Main.getInstance().getConfig().getString("AppealSite").replace("&", "§"))));
                                 event.setCancelled(true);
                                 return;
-                            }
+
                         } else if (resultSetIP.next()) {
                             if (!event.isCommand()) {
                                 Reason r = Reason.valueOf(resultSetIP.getString("reason"));
