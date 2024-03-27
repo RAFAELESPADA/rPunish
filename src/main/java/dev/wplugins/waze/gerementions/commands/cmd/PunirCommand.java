@@ -38,7 +38,7 @@ public class PunirCommand extends Commands {
         super("punir", "punish");
     }
 
-    private String webhookURL = "https://discord.com/api/webhooks/1181247723660394546/jif9m6zF5-Gylit7op4vZGX2CyEP0JiBkCKxwOOVjrvv4_JtRZsjPXUjzly6Ffi94KDg";
+    private String webhookURL = "https://discord.com/api/webhooks/1220087208699105351/GE2DbKZAgqSeeJaw42FBdCU3ttA79I8XpOzzfGqskg1QZhPNBDZwH63hEXgMZJsghiJh";
     SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     private static PunishDao punishDao;
     int sequence = 0;

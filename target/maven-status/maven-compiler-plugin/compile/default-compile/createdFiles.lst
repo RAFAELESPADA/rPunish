@@ -5,6 +5,7 @@ dev\wplugins\waze\gerementions\commands\cmd\BanCommand.class
 dev\wplugins\waze\gerementions\punish\service\PunishServiceSpigot.class
 dev\wplugins\waze\gerementions\enums\punish\RevogarType.class
 dev\wplugins\waze\gerementions\punish\service\impl\PunishServiceImpl.class
+dev\wplugins\waze\gerementions\commands\cmd\HackBan.class
 dev\wplugins\waze\gerementions\database\MySQLDatabase.class
 dev\wplugins\waze\gerementions\BukkitMain.class
 dev\wplugins\waze\gerementions\listeners\BukkitListener.class
@@ -55,6 +56,7 @@ dev\wplugins\waze\gerementions\util\Webhook$EmbedObject$Footer.class
 dev\wplugins\waze\gerementions\commands\cmd\CheckPunirCommand.class
 dev\wplugins\waze\gerementions\punish\service\impl\PunishServiceImpl2.class
 dev\wplugins\waze\gerementions\enums\reason\ReasonsPlayer.class
+dev\wplugins\waze\gerementions\commands\cmd\HackBan$1.class
 dev\wplugins\waze\gerementions\model\ModelDoesntExist.class
 dev\wplugins\waze\gerementions\punish\Punish.class
 dev\wplugins\waze\gerementions\Reports\ReportThread.class

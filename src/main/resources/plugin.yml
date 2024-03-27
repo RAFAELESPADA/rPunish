@@ -1,5 +1,8 @@
 name: wPunish
-version: 1.0.0
-author: EvilNaraku
+version: 1.2.0
+author: Rafael Auler
 main: dev.wplugins.waze.gerementions.BukkitMain
+commands:
+  hackban:
+
 

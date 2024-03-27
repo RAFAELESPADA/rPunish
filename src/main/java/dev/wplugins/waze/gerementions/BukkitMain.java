@@ -1,5 +1,6 @@
 package dev.wplugins.waze.gerementions;
 
+import dev.wplugins.waze.gerementions.commands.cmd.HackBan;
 import dev.wplugins.waze.gerementions.database.Database;
 import dev.wplugins.waze.gerementions.database.MySQLDatabase;
 import dev.wplugins.waze.gerementions.database.PluginInstance;
@@ -39,6 +40,7 @@ public class BukkitMain extends JavaPlugin {
         MySQLDatabase.instancia = PluginInstance.SPIGOT;
         this.getLogger().info("§aEste plugin foi ativo com sucesso");
         PluginManager pm = Bukkit.getPluginManager();
+        getCommand("hackban").setExecutor(new HackBan(this));
 
         pm.registerEvents(new BukkitListener(), this);
     }
@@ -84,9 +86,6 @@ public class BukkitMain extends JavaPlugin {
         }
     }
 
-    public PunishDao getPunishDao() {
-        return punishDao;
-    }
 
     public PunishThread getPunishThread() {
         return punishThread;

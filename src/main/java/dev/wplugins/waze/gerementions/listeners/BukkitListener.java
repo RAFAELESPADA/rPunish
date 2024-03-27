@@ -33,7 +33,7 @@ public class BukkitListener implements Listener {
     public ResultSet resultSet3;
 
     public BukkitListener() {
-        punishDao = BukkitMain.getPlugin().getPunishDao();
+        punishDao = new PunishDao();
     }
 
     SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy 'às' HH:mm");
