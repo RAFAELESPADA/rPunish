@@ -20,9 +20,12 @@ import org.bukkit.plugin.Plugin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class BukkitListener implements Listener {
@@ -39,6 +42,36 @@ public class BukkitListener implements Listener {
     SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy 'às' HH:mm");
     SimpleDateFormat SDF2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
+
+    public static boolean givenTwoDatesBeforeJava8_whenDifferentiating_thenWeGetSix(String name)
+            throws ParseException {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy 'às' HH:mm");
+
+
+        try {
+            Statement statement2 = MySQLDatabase.getInstance().getConnection().createStatement();
+
+            ResultSet resultSet2 = statement2.executeQuery("SELECT * FROM wPunish WHERE playerName='" + name + "' AND (type='BAN' OR type='TEMPBAN' OR type='Banimento temporário')");
+            if (!resultSet2.next()) {
+                return false;
+            }
+            Date firstDate = sdf.parse(sdf.format(resultSet2.getLong("date")));
+            Date secondDate = sdf.parse(sdf.format(resultSet2.getLong("expires")));
+            Date currentDate = new Date();
+            Date currentDateTime = sdf.parse(sdf.format(currentDate.getTime()));
+            if (resultSet2.getLong("expires") == 0) {
+                return false;
+            }
+            long diffInMillies = Math.abs(secondDate.getTime() - currentDateTime.getTime());
+            long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            return diff < 0;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @EventHandler
     public void login(PlayerLoginEvent event) {
         String name = event.getPlayer().getName();
@@ -46,7 +79,7 @@ public class BukkitListener implements Listener {
             public void run() {
                 try {
 
-                        if (Listeners.givenTwoDatesBeforeJava8_whenDifferentiating_thenWeGetSix(event.getPlayer().getName())) {
+                        if (givenTwoDatesBeforeJava8_whenDifferentiating_thenWeGetSix(event.getPlayer().getName())) {
 
                             Bukkit.getConsoleSender().sendMessage("Jogador " + name + " foi desbanido por passar o tempo da punição");
                             statement2.executeUpdate("DELETE FROM wPunish WHERE playerName='" + name + "'");
