@@ -46,6 +46,12 @@
             <scope>system</scope>
             <systemPath>C:/Users/Home/Desktop/REDEFAINT/SHADOW KITPVP/server.jar</systemPath>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

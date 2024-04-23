@@ -17,15 +17,19 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
+import org.junit.Assert;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -124,6 +128,35 @@ public class Listeners implements Listener {
         }, 1, TimeUnit.MILLISECONDS);
     }
 
+    public static boolean givenTwoDatesBeforeJava8_whenDifferentiating_thenWeGetSix(String name)
+            throws ParseException {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy 'às' HH:mm");
+
+
+        try {
+            Statement statement2 = MySQLDatabase.getInstance().getConnection().createStatement();
+
+            ResultSet resultSet2 = statement2.executeQuery("SELECT * FROM wPunish WHERE playerName='" + name + "' AND (type='BAN' OR type='TEMPBAN' OR type='Banimento temporário')");
+            if (!resultSet2.next()) {
+                return false;
+            }
+            Date firstDate = sdf.parse(sdf.format(resultSet2.getLong("date")));
+            Date secondDate = sdf.parse(sdf.format(resultSet2.getLong("expires")));
+            Date currentDate = new Date();
+            Date currentDateTime = sdf.parse(sdf.format(currentDate.getTime()));
+            if (resultSet2.getLong("expires") == 0) {
+                return false;
+            }
+            long diffInMillies = Math.abs(secondDate.getTime() - currentDateTime.getTime());
+            long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            return diff < 0;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @EventHandler
     public void login(LoginEvent event) {
@@ -151,7 +184,20 @@ public class Listeners implements Listener {
 
                         ResultSet resultSetIP = statement4.executeQuery("SELECT * FROM wPunish WHERE ip='" + ip.getAddress() + "'");
                         ResultSet resultSet2 = statement2.executeQuery("SELECT * FROM wPunish WHERE playerName='" + name + "' AND (type='BAN' OR type='TEMPBAN' OR type='Banimento temporário')");
+                        try {
+                            if (givenTwoDatesBeforeJava8_whenDifferentiating_thenWeGetSix(event.getConnection().getName())) {
 
+                                BungeeCord.getInstance().getConsole().sendMessage("Jogador " + name + " foi desbanido por passar o tempo da punição");
+                                statement2.executeUpdate("DELETE FROM wPunish WHERE playerName='" + name + "'");
+
+                            }
+                            else {
+                                BungeeCord.getInstance().getConsole().sendMessage("[CHECAGEM TEMPO DE PUNIÇÃO] Jogador " + name + " não tem punição ativa ou está banido ainda.");
+
+                            }
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
                         if ((resultSet2.next() && resultSet3.next())) {
 
                             Reason r = Reason.valueOf(resultSet3.getString("reason"));

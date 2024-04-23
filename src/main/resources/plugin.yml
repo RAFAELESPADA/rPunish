@@ -4,5 +4,6 @@ author: Rafael Auler
 main: dev.wplugins.waze.gerementions.BukkitMain
 commands:
   hackban:
+  warn:
 
 

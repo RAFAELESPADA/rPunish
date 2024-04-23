@@ -89,7 +89,7 @@ public class HackBan implements CommandExecutor, Listener {
                 }
 
                 Bukkit.broadcastMessage(ChatColor.RED + args[0] + " foi banido do servidor!");
-                Webhook webhook = new Webhook("https://discord.com/api/webhooks/1220087208699105351/GE2DbKZAgqSeeJaw42FBdCU3ttA79I8XpOzzfGqskg1QZhPNBDZwH63hEXgMZJsghiJh");
+                Webhook webhook = new Webhook("https://discord.com/api/webhooks/1228785436051378216/Z4VJ9Qamxbhaxr8OnKLevbxrfX1tmvQNOdNavDkaqkJt1Yw-uy4nsjA03S4Rxa_bbQQs");
                 webhook.addEmbed(
                         new Webhook.EmbedObject()
                                 .setDescription("Um usuário foi punido do servidor.")

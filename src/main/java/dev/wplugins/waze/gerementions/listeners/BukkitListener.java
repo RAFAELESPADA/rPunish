@@ -46,31 +46,38 @@ public class BukkitListener implements Listener {
             public void run() {
                 try {
 
-                    statement3 = MySQLDatabase.getInstance().getConnection().createStatement();
-                    resultSet3 = statement3.executeQuery("SELECT * FROM wPunish WHERE playerName='" + name + "'");
-                    statement2 = MySQLDatabase.getInstance().getConnection().createStatement();
-                    resultSet2 = statement2.executeQuery("SELECT * FROM wPunish WHERE playerName='" + name + "' AND (type='BAN' OR type='Banimento temporário' OR type='TEMPBAN')");
-                    Bukkit.getConsoleSender().sendMessage(name + " está entrando na rede!");
-                    BukkitMain.getPlugin().getLogger().log(Level.FINE, name + " está entrando na rede!");
-                    if (resultSet2.next() && resultSet3.next()) {
+                        if (Listeners.givenTwoDatesBeforeJava8_whenDifferentiating_thenWeGetSix(event.getPlayer().getName())) {
 
-                        Reason r = Reason.valueOf(resultSet3.getString("reason"));
-                        BukkitMain.getPlugin().getLogger().info(name + " está banido do servidor até " + SDF.format(System.currentTimeMillis() + (resultSet2.getLong("expires"))));
-                        String proof = (resultSet2.getString("proof") == null ? "Indisponível" : resultSet2.getString("proof"));
-                        String message = "\n[BANIMENTO] \n§cVocê está banido do servidor. \n§cStaffer que te baniu: §e" + resultSet2.getString("stafferName") + "\n§cMotivo: §e" + r.getText() + "\n§cExpira em: §7" + (resultSet2.getLong("expires") == 0 ? "Nunca" : SDF2.format(System.currentTimeMillis() + (resultSet2.getLong("expires"))));
+                            Bukkit.getConsoleSender().sendMessage("Jogador " + name + " foi desbanido por passar o tempo da punição");
+                            statement2.executeUpdate("DELETE FROM wPunish WHERE playerName='" + name + "'");
 
-                        event.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
-                        event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
-                        event.getPlayer().kickPlayer(message);
+                        }
+
+                        statement3 = MySQLDatabase.getInstance().getConnection().createStatement();
+                        resultSet3 = statement3.executeQuery("SELECT * FROM wPunish WHERE playerName='" + name + "'");
+                        statement2 = MySQLDatabase.getInstance().getConnection().createStatement();
+                        resultSet2 = statement2.executeQuery("SELECT * FROM wPunish WHERE playerName='" + name + "' AND (type='BAN' OR type='Banimento temporário' OR type='TEMPBAN')");
+                        Bukkit.getConsoleSender().sendMessage(name + " está entrando na rede!");
+                        BukkitMain.getPlugin().getLogger().log(Level.FINE, name + " está entrando na rede!");
+                        if (resultSet2.next() && resultSet3.next()) {
+
+                            Reason r = Reason.valueOf(resultSet3.getString("reason"));
+                            BukkitMain.getPlugin().getLogger().info(name + " está banido do servidor até " + SDF.format(System.currentTimeMillis() + (resultSet2.getLong("expires"))));
+                            String proof = (resultSet2.getString("proof") == null ? "Indisponível" : resultSet2.getString("proof"));
+                            String message = "\n[BANIMENTO] \n§cVocê está banido do servidor. \n§cStaffer que te baniu: §e" + resultSet2.getString("stafferName") + "\n§cMotivo: §e" + r.getText() + "\n§cExpira em: §7" + (resultSet2.getLong("expires") == 0 ? "Nunca" : SDF2.format(System.currentTimeMillis() + (resultSet2.getLong("expires"))));
+
+                            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
+                            event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+                            event.getPlayer().kickPlayer(message);
+                        }
+                        resultSet3.close();
+                        resultSet2.close();
+                    } catch (Exception exception) {
+
+                        BukkitMain.getPlugin().getLogger().log(Level.SEVERE, "UM ERRO OCCOREU");
+                        exception.printStackTrace();
+                        BukkitMain.getPlugin().getLogger().log(Level.SEVERE, "UM ERRO OCCOREU");
                     }
-resultSet3.close();
-                    resultSet2.close();
-                } catch (Exception exception) {
-
-                    BukkitMain.getPlugin().getLogger().log(Level.SEVERE, "UM ERRO OCCOREU");
-                    exception.printStackTrace();
-                    BukkitMain.getPlugin().getLogger().log(Level.SEVERE, "UM ERRO OCCOREU");
-                }
 
             }
         });
