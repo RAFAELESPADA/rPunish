@@ -148,9 +148,9 @@ public class Listeners implements Listener {
             if (resultSet2.getLong("expires") == 0) {
                 return false;
             }
-            long diffInMillies = Math.abs(secondDate.getTime() - currentDateTime.getTime());
+            long diffInMillies = secondDate.getTime() - currentDateTime.getTime();
             long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
-            return diff < 0;
+            return diffInMillies < 0;
 
 
         } catch (SQLException e) {
@@ -189,7 +189,7 @@ public class Listeners implements Listener {
 
                                 BungeeCord.getInstance().getConsole().sendMessage("Jogador " + name + " foi desbanido por passar o tempo da punição");
                                 statement2.executeUpdate("DELETE FROM wPunish WHERE playerName='" + name + "'");
-
+return;
                             }
                             else {
                                 BungeeCord.getInstance().getConsole().sendMessage("[CHECAGEM TEMPO DE PUNIÇÃO] Jogador " + name + " não tem punição ativa ou está banido ainda.");

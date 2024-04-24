@@ -63,9 +63,9 @@ public class BukkitListener implements Listener {
             if (resultSet2.getLong("expires") == 0) {
                 return false;
             }
-            long diffInMillies = Math.abs(secondDate.getTime() - currentDateTime.getTime());
+            long diffInMillies = secondDate.getTime() - currentDateTime.getTime();
             long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
-            return diff < 0;
+            return diffInMillies < 0;
 
 
         } catch (SQLException e) {
@@ -83,7 +83,7 @@ public class BukkitListener implements Listener {
 
                             Bukkit.getConsoleSender().sendMessage("Jogador " + name + " foi desbanido por passar o tempo da punição");
                             statement2.executeUpdate("DELETE FROM wPunish WHERE playerName='" + name + "'");
-
+return;
                         }
 
                         statement3 = MySQLDatabase.getInstance().getConnection().createStatement();
