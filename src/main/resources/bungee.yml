@@ -1,6 +1,4 @@
 name: wPunish
 version: 1.0
 main: dev.wplugins.waze.gerementions.Main
-author: Waze e evilnaraku
-depend:
-  - ShadowCore
+author: Rafael Auler
